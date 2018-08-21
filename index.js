@@ -75,6 +75,8 @@ var server = http.createServer(function(request, response){
 		} else if(request.url === "/allProducts"){
 			response.writeHead(200, {"Content-Type": "text/json"});
 			response.end(JSON.stringify(data));
+		} else if(request.url === "/inStock"){
+			inStock(response);
 		}
 
 	    // else if(request.url === "/contact"){
@@ -113,3 +115,11 @@ var server = http.createServer(function(request, response){
 server.listen(3000);
 
 console.log("The server is running on port 3000");
+
+function inStock(response){
+	var stock = data.filter(function(item){
+		return item.inStock;
+	});
+
+	response.end(JSON.stringify(stock));
+}
