@@ -3,6 +3,7 @@ const http = require("http");
 const fs = require("fs");
 const path = require("path");
 const data = require("./data/products");
+const qs = require("querystring");
 
 // Server variable.
 var server = http.createServer(function(request, response){
@@ -104,9 +105,20 @@ var server = http.createServer(function(request, response){
 	    //     `);
 	}else if(request.method === "POST"){
 		if(request.url === "/formSubmit"){
-			console.log(request);
-			response.writeHead(200, {"Content-Type": "text/plain"});
-			response.end("The form was submitted");
+			// console.log(request);
+			// response.writeHead(200, {"Content-Type": "text/plain"});
+			// response.end("The form was submitted");
+
+			var body = "";
+
+			request.on("data", function(data){
+				body += data;
+			});
+
+			request.on("end", function(){
+				var formData = qs.parse(body);
+				console.log(body);
+			});
 		}
 	}
 
